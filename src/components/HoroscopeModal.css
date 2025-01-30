@@ -1,0 +1,117 @@
+.horoscope-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(250, 30, 30, 0.507);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.horoscope-modal-content {
+  background: url('https://as1.ftcdn.net/v2/jpg/03/94/23/06/1000_F_394230666_ts7r4zOyfiqPI9CCEsx1YcChCzHTvraf.jpg');
+  color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.horoscope-modal-content h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #ffd700;
+}
+
+.horoscope-details {
+  color: #fff;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #ffd700;
+}
+
+.horoscope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.horoscope-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.horoscope-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.horoscope-item strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ffd700;
+}
+
+.horoscope-item span {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .horoscope-modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .horoscope-grid {
+    grid-template-columns: 1fr;
+  }
+}

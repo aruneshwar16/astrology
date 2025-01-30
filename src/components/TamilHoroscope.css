@@ -1,0 +1,210 @@
+.tamil-horoscope-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.tamil-horoscope-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.current-date {
+  text-align: center;
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  padding: 0.8rem 1.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.horoscope-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.horoscope-card {
+  border-radius: 15px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.horoscope-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+}
+
+/* Zodiac Colors and Backgrounds */
+.zodiac-bg-aries {
+  background: linear-gradient(145deg, #ff6b6b, #ff8787);
+  color: #742424;
+}
+
+.zodiac-bg-taurus {
+  background: linear-gradient(145deg, #4d8076, #65a897);
+  color: #1a2e2a;
+}
+
+.zodiac-bg-gemini {
+  background: linear-gradient(145deg, #ffd43b, #fcc419);
+  color: #664d03;
+}
+
+.zodiac-bg-cancer {
+  background: linear-gradient(145deg, #74c0fc, #a5d8ff);
+  color: #0c3d75;
+}
+
+.zodiac-bg-leo {
+  background: linear-gradient(145deg, #ffa94d, #ffd8a8);
+  color: #802b00;
+}
+
+.zodiac-bg-virgo {
+  background: linear-gradient(145deg, #69db7c, #8ce99a);
+  color: #1b4332;
+}
+
+.zodiac-bg-libra {
+  background: linear-gradient(145deg, #da77f2, #e599f7);
+  color: #5f1497;
+}
+
+.zodiac-bg-scorpio {
+  background: linear-gradient(145deg, #4c6ef5, #748ffc);
+  color: #1a1b4b;
+}
+
+.zodiac-bg-sagittarius {
+  background: linear-gradient(145deg, #ff922b, #ffa94d);
+  color: #7a2800;
+}
+
+.zodiac-bg-capricorn {
+  background: linear-gradient(145deg, #495057, #868e96);
+  color: #212529;
+}
+
+.zodiac-bg-aquarius {
+  background: linear-gradient(145deg, #15aabf, #3bc9db);
+  color: #0b4b59;
+}
+
+.zodiac-bg-pisces {
+  background: linear-gradient(145deg, #7950f2, #9775fa);
+  color: #2b0b76;
+}
+
+.horoscope-card h2 {
+  color: inherit;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.horoscope-card h2::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+.zodiac-bg-aries h2::before { mask-image: url('/images/zodiac/aries.svg'); -webkit-mask-image: url('/images/zodiac/aries.svg'); }
+
+.horoscope-card h3 {
+  color: inherit;
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.horoscope-details {
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.horoscope-details p {
+  margin-bottom: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: background-color 0.3s ease;
+}
+
+.horoscope-details p:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.horoscope-details p.description {
+  margin-bottom: 1.2rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-left: 4px solid currentColor;
+  font-size: 1.1rem;
+}
+
+.horoscope-details strong {
+  color: inherit;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .tamil-horoscope-container {
+    padding: 1rem;
+  }
+  
+  .horoscope-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .horoscope-card {
+    margin-bottom: 0;
+  }
+  
+  .card-content {
+    padding: 1.5rem;
+  }
+}
