@@ -1,99 +1,31 @@
 import express from 'express';
-import auth from '../middleware/auth.js';
 import Appointment from '../models/Appointment.js';
+import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Book a new appointment
-router.post('/book', auth, async (req, res) => {
+// Create a new appointment
+router.post('/', auth, async (req, res) => {
   try {
-    console.log('Booking appointment request received:', {
-      ...req.body,
-      userId: req.user.userId
-    });
-
-    const { name, email, phone, date, time, consultationType, message } = req.body;
-
-    // Basic validation
-    if (!name || !email || !phone || !date || !time || !consultationType) {
-      return res.status(400).json({
-        message: 'Please provide all required fields'
-      });
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        message: 'Invalid email format'
-      });
-    }
-
-    // Validate phone number
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phone)) {
-      return res.status(400).json({
-        message: 'Invalid phone number format. Please enter 10 digits'
-      });
-    }
-
-    // Validate date
-    const appointmentDate = new Date(date);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    console.log(' Creating new appointment:', { ...req.body, userId: req.user.userId });
     
-    if (appointmentDate < today) {
-      return res.status(400).json({
-        message: 'Please select a future date'
-      });
-    }
-
-    // Create new appointment
     const appointment = new Appointment({
+      ...req.body,
       userId: req.user.userId,
-      name,
-      email,
-      phone,
-      date,
-      time,
-      consultationType,
-      message: message || ''
+      status: 'pending'
     });
 
-    // Save appointment
-    console.log('Saving appointment...');
-    const savedAppointment = await appointment.save();
-    console.log('Appointment saved successfully:', savedAppointment);
-
+    await appointment.save();
+    
+    console.log(' Appointment created successfully');
     res.status(201).json({
       message: 'Appointment booked successfully',
-      appointment: savedAppointment
+      appointment
     });
   } catch (error) {
-    console.error('Error booking appointment:', {
-      name: error.name,
-      message: error.message,
-      code: error.code,
-      stack: error.stack
-    });
-
-    // Handle validation errors
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({
-        message: 'Validation error',
-        errors: Object.values(error.errors).map(err => err.message)
-      });
-    }
-
-    // Handle MongoDB errors
-    if (error.name === 'MongoError' || error.name === 'MongoServerError') {
-      return res.status(500).json({
-        message: 'Database operation failed. Please try again.'
-      });
-    }
-
+    console.error(' Error creating appointment:', error);
     res.status(500).json({
-      message: 'Server error while booking appointment',
+      message: 'Error booking appointment',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
@@ -102,16 +34,67 @@ router.post('/book', auth, async (req, res) => {
 // Get user's appointments
 router.get('/my-appointments', auth, async (req, res) => {
   try {
-    console.log('Fetching appointments for user:', req.user.userId);
-    
     const appointments = await Appointment.find({ userId: req.user.userId })
-      .sort({ date: 1, time: 1 });
+      .sort({ createdAt: -1 });
     
     res.json(appointments);
   } catch (error) {
-    console.error('Error fetching appointments:', error);
+    console.error(' Error fetching appointments:', error);
     res.status(500).json({
-      message: 'Server error while fetching appointments',
+      message: 'Error fetching appointments',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// Update appointment status
+router.patch('/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const appointment = await Appointment.findOneAndUpdate(
+      { _id: id, userId: req.user.userId },
+      { status },
+      { new: true }
+    );
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    res.json({
+      message: 'Appointment updated successfully',
+      appointment
+    });
+  } catch (error) {
+    console.error(' Error updating appointment:', error);
+    res.status(500).json({
+      message: 'Error updating appointment',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// Cancel appointment
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const appointment = await Appointment.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user.userId
+    });
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    res.json({
+      message: 'Appointment cancelled successfully'
+    });
+  } catch (error) {
+    console.error(' Error cancelling appointment:', error);
+    res.status(500).json({
+      message: 'Error cancelling appointment',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }

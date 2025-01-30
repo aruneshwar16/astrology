@@ -53,7 +53,7 @@ html, body {
   max-width: 400px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(241, 240, 240, 0.562);
   margin: 2rem auto;
 }
 
@@ -71,7 +71,7 @@ html, body {
 
 .form-group label {
   display: block;
-  color: white;
+  color: rgb(255, 255, 255);
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
 }
@@ -95,7 +95,7 @@ html, body {
 }
 
 .form-group select option {
-  background: #1a1a1a;
+  background: #1a1a1af4;
   color: white;
 }
 
@@ -124,7 +124,7 @@ html, body {
 }
 
 .toggle-form span {
-  color: #ff2626;
+  color: #ff6b6b;
   cursor: pointer;
   text-decoration: underline;
   margin-left: 0.3rem;
@@ -132,41 +132,6 @@ html, body {
 
 .toggle-form span:hover {
   color: #ff5252;
-}
-
-.message {
-  margin: 1rem 0;
-  padding: 0.8rem;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.message.success {
-  background-color: rgba(40, 167, 69, 0.2);
-  color: #28a745;
-  border: 1px solid #28a745;
-}
-
-.message.error {
-  background-color: rgba(220, 53, 69, 0.2);
-  color: #dc3545;
-  border: 1px solid #dc3545;
-}
-
-.toggle-btn {
-  background: none;
-  border: none;
-  color: #007bff;
-  cursor: pointer;
-  padding: 0;
-  font: inherit;
-  text-decoration: underline;
-}
-
-.toggle-btn:hover {
-  color: #0056b3;
 }
 
 @media (max-width: 480px) {

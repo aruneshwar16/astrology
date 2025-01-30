@@ -1,61 +1,35 @@
 import jwt from 'jsonwebtoken';
 
-const auth = (req, res, next) => {
+const JWT_SECRET = 'astrology_jwt_secret_key_2025';
+
+const auth = async (req, res, next) => {
   try {
-    // Check for Authorization header
-    const authHeader = req.header('Authorization');
-    if (!authHeader) {
-      return res.status(401).json({ 
-        message: 'No authorization header found',
-        code: 'NO_AUTH_HEADER'
-      });
+    // Get token from header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Authorization token required' });
     }
 
-    // Extract token
-    const token = authHeader.startsWith('Bearer ') 
-      ? authHeader.slice(7) 
-      : authHeader;
-
-    if (!token) {
-      return res.status(401).json({ 
-        message: 'No token provided',
-        code: 'NO_TOKEN'
-      });
-    }
-
+    const token = authHeader.split(' ')[1];
+    
     try {
       // Verify token
-      const JWT_SECRET = process.env.JWT_SECRET;
-      if (!JWT_SECRET) {
-        console.error('JWT_SECRET not set in environment variables');
-        return res.status(500).json({ 
-          message: 'Server configuration error',
-          code: 'CONFIG_ERROR'
-        });
-      }
-
       const decoded = jwt.verify(token, JWT_SECRET);
-      req.user = decoded;
+      
+      // Add user info to request
+      req.user = {
+        userId: decoded.userId,
+        username: decoded.username
+      };
+      
       next();
-    } catch (jwtError) {
-      console.error('JWT verification failed:', jwtError);
-      if (jwtError.name === 'TokenExpiredError') {
-        return res.status(401).json({ 
-          message: 'Token has expired',
-          code: 'TOKEN_EXPIRED'
-        });
-      }
-      return res.status(401).json({ 
-        message: 'Invalid token',
-        code: 'INVALID_TOKEN'
-      });
+    } catch (error) {
+      console.error('Token verification error:', error);
+      res.status(401).json({ message: 'Invalid token' });
     }
   } catch (error) {
     console.error('Auth middleware error:', error);
-    res.status(500).json({ 
-      message: 'Internal server error',
-      code: 'SERVER_ERROR'
-    });
+    res.status(500).json({ message: 'Server error' });
   }
 };
 

@@ -52,12 +52,12 @@
 }
 
 .zodiac-card {
-  width: 320px;
-  height: 320px;
+  width: 300px;
+  height: 300px;
   border-radius: 8px;
   overflow: hidden;
-  background: rgba(255, 255, 254, 0.703);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 254, 0.453);
+  box-shadow: 0 4px 6px rgba(233, 29, 29, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
   display: flex;

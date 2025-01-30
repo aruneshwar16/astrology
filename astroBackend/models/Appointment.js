@@ -1,37 +1,58 @@
 import mongoose from 'mongoose';
 
 const appointmentSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true
+  },
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    trim: true,
+    lowercase: true,
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email']
+  },
+  phone: {
+    type: String,
+    required: [true, 'Phone number is required'],
+    trim: true
   },
   date: {
     type: Date,
-    required: true
+    required: [true, 'Date is required']
   },
-  status: {
+  time: {
     type: String,
-    enum: ['pending', 'confirmed', 'cancelled'],
-    default: 'confirmed'
+    required: [true, 'Time is required']
+  },
+  astrologer: {
+    type: String,
+    required: [true, 'Astrologer name is required']
   },
   consultationType: {
     type: String,
     enum: ['video', 'audio', 'chat'],
-    required: true
-  },
-  astrologer: {
-    type: String,
-    required: true
+    default: 'video'
   },
   message: {
     type: String,
-    required: false
+    trim: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'cancelled'],
+    default: 'pending'
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
-}, { collection: 'bookAppointment' });
+}, {
+  timestamps: true
+});
 
-export default mongoose.model('Appointment', appointmentSchema);
+const Appointment = mongoose.model('Appointment', appointmentSchema);
+
+export default Appointment;
